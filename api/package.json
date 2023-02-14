@@ -4,7 +4,7 @@
   "description": "Full Stack Movie App(MERN Stack)",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
