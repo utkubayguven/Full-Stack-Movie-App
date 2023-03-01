@@ -7,7 +7,8 @@ const authRoute = require("./routes/auth")
 dotenv.config();
 mongoose.set('strictQuery', false);
 mongoose
-    .connect(process.env.MONGO_URL,{
+//process.env.MONGO_URL
+    .connect("mongodb://localhost:27017",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     })
