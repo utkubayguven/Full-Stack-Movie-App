@@ -31,9 +31,10 @@ router.post("/login",async (req,res)=>{
             return res.status(401).json("Wrong password or username!");
         }
 
+        const accToken = jwt.sign({id : user._id , isAdmin : user.isAdmin},process.env.SECRET_KEY,{expiresIn : "10d"})
 
         const { password , ...user2} = user._doc ;
-        res.status(200).json(user2);
+        res.status(200).json({...user2,accToken});
     }catch(err){
         res.status(500).json(err);
     }
