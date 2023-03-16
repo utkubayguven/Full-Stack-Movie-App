@@ -86,7 +86,14 @@ router.get('/stats', async (req, res) => {
       }
     ]);
 
-    res.status(200).json(data);
+    const formattedData = data.map(item => {
+      const monthYear = new Date(today.getFullYear(), item._id - 1);
+      const options = { month: 'long' };
+      const monthNameEN = monthYear.toLocaleString('en-US', options);
+      return { month_id: item._id, month_name_en: monthNameEN, count: item.count };
+    });
+
+    res.status(200).json(formattedData);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
