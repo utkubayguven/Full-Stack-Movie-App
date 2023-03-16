@@ -54,12 +54,41 @@ router.get("/", validate, async (req, res) => {
   if (req.user.isAdmin) {
     try {
       const users = query ? await User.find().limit(10) : await User.find()
-      res.status(200).json("User has been deleted...");
+      res.status(200).json(users);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err); 
     }
   } else {
     res.status(403).json("You are not allowed to see all users");
+  }
+});
+
+
+router.get('/stats', async (req, res) => {
+  const today = new Date();
+  const lastYear = today.setFullYear(today.getFullYear() - 1);
+
+  try {
+    const data = await User.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: new Date(lastYear) }
+        }
+      },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { _id: 1 }
+      }
+    ]);
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
