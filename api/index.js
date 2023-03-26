@@ -4,12 +4,13 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 const authRoute = require("./routes/auth")
 const userRoute = require("./routes/users")
+const movieRoute = require("./routes/movies")
 
 dotenv.config();
 mongoose.set('strictQuery', false);
 mongoose
 //process.env.MONGO_URL
-    .connect("mongodb://localhost:27017",{
+    .connect("mongodb://localhost:27017/mydatabase",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
     })
@@ -19,6 +20,10 @@ mongoose
 app.use(express.json())
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+app.use("/api/movies", movieRoute);
+
+
+
 
 app.listen(8000,()=>{
     console.log("Backend server working...")

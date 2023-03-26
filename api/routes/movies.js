@@ -66,7 +66,7 @@ router.get("/:id", validate, async (req, res) => {
 
 
 
-router.get("/", verify, async (req, res) => {
+router.get("/", validate, async (req, res) => {
   try {
     const movies = req.user.isAdmin ? await Movie.find().sort({ _id: -1 }) : null;
     const status = req.user.isAdmin ? 200 : 403;
@@ -98,3 +98,5 @@ router.get("/random", validate, async (req, res) => {
     res.status(500).json(err);
   }
 }); 
+
+module.exports = router
